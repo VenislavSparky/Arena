@@ -4,8 +4,8 @@ import org.example.Abilities.Ability;
 import org.example.Equipments.Equipment;
 import org.example.Equipments.Slot;
 
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public abstract class Character {
 
@@ -14,22 +14,26 @@ public abstract class Character {
     private int totalHealth;
     private int currentHealth;
     private int totalActionPoints;
-    private int currentActionPoints;
-    private int actionPointsRegenPerTurn;
+    private int currentActionPoints = 3;
 
-    private int attackPowerStat;
+    private int strengthStat;
     private int armorStat;
     private int intellectStat;
 
     private Map<Slot, Equipment> equipments;
-    private Set<Ability> abilities;
+    private List<Ability> abilities;
 
 
-    public abstract int useAbility();
+    public abstract int useAbility(Character user, List<Character> allies, List<Character> enemies);
 
     public void takeDamage(int damage) {
         //TODO CHECK DEAD
         this.currentHealth -= damage;
+    };
+
+    public void heal(int health) {
+        //TODO CHECK DEAD
+        this.currentHealth += health;
     };
 
     public int getLevel() {
@@ -38,6 +42,14 @@ public abstract class Character {
 
     public void setLevel(int level) {
         this.level = level;
+    }
+
+    public int getGold() {
+        return gold;
+    }
+
+    public void setGold(int gold) {
+        this.gold = gold;
     }
 
     public int getTotalHealth() {
@@ -72,20 +84,12 @@ public abstract class Character {
         this.currentActionPoints = currentActionPoints;
     }
 
-    public int getActionPointsRegenPerTurn() {
-        return actionPointsRegenPerTurn;
+    public int getStrengthStat() {
+        return strengthStat;
     }
 
-    public void setActionPointsRegenPerTurn(int actionPointsRegenPerTurn) {
-        this.actionPointsRegenPerTurn = actionPointsRegenPerTurn;
-    }
-
-    public int getAttackPowerStat() {
-        return attackPowerStat;
-    }
-
-    public void setAttackPowerStat(int attackPowerStat) {
-        this.attackPowerStat = attackPowerStat;
+    public void setStrengthStat(int strengthStat) {
+        this.strengthStat = strengthStat;
     }
 
     public int getArmorStat() {
@@ -112,11 +116,11 @@ public abstract class Character {
         this.equipments = equipments;
     }
 
-    public Set<Ability> getAbilities() {
+    public List<Ability> getAbilities() {
         return abilities;
     }
 
-    public void setAbilities(Set<Ability> abilities) {
+    public void setAbilities(List<Ability> abilities) {
         this.abilities = abilities;
     }
 }

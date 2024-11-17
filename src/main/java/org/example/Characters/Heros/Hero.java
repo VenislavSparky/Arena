@@ -1,9 +1,11 @@
 package org.example.Characters.Heros;
 
+import jakarta.persistence.Entity;
 import org.example.Characters.Character;
 import org.example.Equipments.Storable;
 
 import java.util.List;
+
 
 public abstract class Hero extends Character {
     private int exp;

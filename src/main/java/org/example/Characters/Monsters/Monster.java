@@ -1,4 +1,6 @@
 package org.example.Characters.Monsters;
 
-public abstract class Monster {
+import org.example.Characters.Character;
+
+public abstract class Monster extends Character {
 }
