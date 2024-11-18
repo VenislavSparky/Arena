@@ -22,7 +22,7 @@ public class Main {
 
         boolean exit = false;
 
-        while (exit) {
+        while (!exit) {
             System.out.println("Select option:");
             System.out.println("1.Arena");
             System.out.println("2.Shop");
