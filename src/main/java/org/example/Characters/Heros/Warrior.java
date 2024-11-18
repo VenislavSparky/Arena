@@ -9,10 +9,10 @@ public class Warrior extends Hero {
 
 
     @Override
-    public int useAbility(Character user, List<Character> allies, List<Character> enemies) {
+    public boolean selectAbility(Character user, List<Character> allies, List<Character> enemies) {
         for (Ability ability : getAbilities()) {
             ability.use(user, allies,enemies);
         }
-        return 0;
+        return true;
     }
 }

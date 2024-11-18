@@ -1,24 +1,18 @@
 package org.example;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
-import org.example.Arena.ArenaManager;
-import org.example.Characters.Character;
+import org.example.Arena.Arena;
+import org.example.Arena.Arena1v1;
 import org.example.Characters.Heros.Hero;
 import org.example.Characters.Heros.HeroFactory;
-import org.example.Characters.Monsters.Monster;
-import org.example.Characters.Monsters.MonsterFactory;
-import org.example.Characters.Monsters.Skeleton;
-import org.example.Characters.Monsters.Troll;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+
 
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println();
 
         System.out.println("1.Select existing Hero!");
         //TODO Select from DB
@@ -26,11 +20,9 @@ public class Main {
         //TODO Select new Hero Class
         Hero hero = HeroFactory.createHero("Warrior");
 
-
         boolean exit = false;
 
         while (exit) {
-            Scanner scanner = new Scanner(System.in);
             System.out.println("Select option:");
             System.out.println("1.Arena");
             System.out.println("2.Shop");
@@ -41,7 +33,7 @@ public class Main {
 
             switch (selectedOption) {
                 case 1:
-                    ArenaManager arena = new ArenaManager();
+                    Arena arena = new Arena1v1();
                     arena.startBattle(hero);
                 break;
                 case 2:

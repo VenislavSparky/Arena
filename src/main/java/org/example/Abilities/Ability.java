@@ -21,7 +21,7 @@ public abstract class Ability {
         this.targetSelectionStrategy = targetSelectionStrategy;
     }
 
-    public abstract void use(Character user, List<Character> allies, List<Character> enemies) ;
+    public abstract boolean use(Character user, List<Character> allies, List<Character> enemies) ;
 
     public int getActionPointsCost() {
         return actionPointsCost;

@@ -3,9 +3,11 @@ package org.example.Characters;
 import org.example.Abilities.Ability;
 import org.example.Equipments.Equipment;
 import org.example.Equipments.Slot;
+import org.example.Helpers.TextColor;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 public abstract class Character {
 
@@ -23,18 +25,57 @@ public abstract class Character {
     private Map<Slot, Equipment> equipments;
     private List<Ability> abilities;
 
+    public boolean selectAbility(Character user, List<Character> allies, List<Character> enemies) {
+        if (abilities.isEmpty()) {
+            System.out.println("No available abilities");
+        } else {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Select ability:");
+            for (int i = 0; i < abilities.size(); i++) {
+                if (hasEnoughActionPoints(abilities.get(i).getActionPointsCost())){
+                    System.out.println(TextColor.toGreen(i + 1 + ":" + abilities.get(i).getDescription()));
+                }else {
+                    System.out.println(TextColor.toRed(i + 1 + ":" + abilities.get(i).getDescription()));
+                }
 
-    public abstract int useAbility(Character user, List<Character> allies, List<Character> enemies);
+            }
+            int selectedOption = Integer.parseInt(scanner.nextLine());
+            if (selectedOption > 0 && selectedOption < abilities.size()) {
+                if (hasEnoughActionPoints(abilities.get(selectedOption).getActionPointsCost())){
+                    abilities.get(selectedOption).use(user, allies, enemies);
+                }else {
+                    System.out.println(TextColor.toRed("Not enough Action Points"));
+                }
+
+            }
+        }
+        return true;
+    };
 
     public void takeDamage(int damage) {
         //TODO CHECK DEAD
         this.currentHealth -= damage;
-    };
+    }
+
+    ;
 
     public void heal(int health) {
         //TODO CHECK DEAD
         this.currentHealth += health;
-    };
+    }
+
+    ;
+
+    public boolean isDead() {
+        return currentHealth <= 0;
+    }
+
+    ;
+
+    public boolean hasEnoughActionPoints(int actionPointsCost) {
+        return currentActionPoints - actionPointsCost >= 0;
+    }
+
 
     public int getLevel() {
         return level;

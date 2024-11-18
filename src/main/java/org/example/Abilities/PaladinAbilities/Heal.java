@@ -21,15 +21,18 @@ public class Heal extends Ability {
     }
 
     @Override
-    public void use(Character user, List<Character> allies, List<Character> enemies) {
-        List<Character> targets = getTargetSelectionStrategy().getPossibleTargets(user, allies, enemies);
-        //TODO CHECK available action points
-
-        for (Character target : targets) {
-            target.heal(HEALTH + user.getIntellectStat());
-            //TODO Action Points consumption
-            target.setCurrentActionPoints(ACTION_POINTS_COST);
+    public boolean use(Character user, List<Character> allies, List<Character> enemies) {
+        boolean isExecuted = false;
+        if (user.hasEnoughActionPoints(ACTION_POINTS_COST)) {
+            List<Character> targets = getTargetSelectionStrategy().selectFromPossibleTargets(user, allies, enemies);
+            for (Character target : targets) {
+                target.heal(HEALTH + user.getIntellectStat());
+                isExecuted = true;
+            }
+        } else {
+            System.out.println("Not Enough Action Points");
         }
+        return isExecuted;
     }
 
 }

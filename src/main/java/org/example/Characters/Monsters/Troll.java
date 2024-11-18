@@ -6,8 +6,9 @@ import java.util.List;
 
 public class Troll extends Monster{
 
+
     @Override
-    public int useAbility(Character user, List<Character> allies, List<Character> enemies) {
-        return 0;
+    public boolean selectAbility(Character user, List<Character> allies, List<Character> enemies) {
+        return false;
     }
 }

@@ -6,5 +6,5 @@ import java.util.List;
 
 public interface TargetSelectionStrategy {
 
-    List<Character> getPossibleTargets(Character user, List<Character> allies, List<Character> enemies);
+    List<Character> selectFromPossibleTargets(Character user, List<Character> allies, List<Character> enemies);
 }
