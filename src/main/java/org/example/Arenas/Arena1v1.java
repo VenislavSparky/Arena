@@ -1,4 +1,4 @@
-package org.example.Arena;
+package org.example.Arenas;
 
 import org.example.Characters.Character;
 import org.example.Characters.Heros.Hero;
@@ -26,21 +26,22 @@ public class Arena1v1 implements Arena{
     public void startBattle(Hero hero) {
         Scanner scanner = new Scanner(System.in);
 
-        loadBattle(hero);
+        loadBattleground(hero);
 
         while (!isBattleOver()) {
             Character character = characters.get(currentCharacterTurn);
-
             boolean endTurn = false;
+
             while (character.getCurrentActionPoints() == 0 || endTurn) {
 
-                System.out.println("1.Chose ability:");
+                System.out.println("1.Use ability:");
                 System.out.println("2.End turn:");
                 int selectedOption = Integer.parseInt(scanner.nextLine());
 
                 switch (selectedOption) {
                     case 1:
                         if (character instanceof Hero) {
+                            //TODO Check if Hero is player
                             character.selectAbility(character, heroes, monsters);
                         } else if (character instanceof Monster) {
                             character.selectAbility(character, monsters, heroes);
@@ -54,9 +55,7 @@ public class Arena1v1 implements Arena{
                 }
 
             }
-
             removeDead();
-
             nextTurn();
 
         }
@@ -80,7 +79,7 @@ public class Arena1v1 implements Arena{
     }
 
 
-    public void loadBattle(Hero hero) {
+    public void loadBattleground(Hero hero) {
         characters.add(hero);
         heroes.add(hero);
 

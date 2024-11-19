@@ -1,4 +1,4 @@
-package org.example.ClassTrainer;
+package org.example.Trainers;
 
 public class ForbiddenTrainer {
 }

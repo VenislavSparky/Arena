@@ -1,6 +1,5 @@
 package org.example.Abilities;
 
-import org.example.Abilities.TargetingStrategies.TargetSelectionStrategy;
 import org.example.Characters.Character;
 import org.example.Characters.ClassType;
 
@@ -11,17 +10,48 @@ public abstract class Ability {
 
     private int actionPointsCost;
     private Set<ClassType> classType;
-    private TargetSelectionStrategy targetSelectionStrategy;
     private int countDown;
     private String description;
 
-    public Ability(int actionPointsCost, Set<ClassType> classType, TargetSelectionStrategy targetSelectionStrategy) {
+    public Ability(int actionPointsCost, Set<ClassType> classType) {
         this.actionPointsCost = actionPointsCost;
         this.classType = classType;
-        this.targetSelectionStrategy = targetSelectionStrategy;
     }
 
-    public abstract boolean use(Character user, List<Character> allies, List<Character> enemies) ;
+    public abstract boolean use(Character user, List<Character> allies, List<Character> enemies);
+
+
+    protected static class TargetingStrategies {
+
+        public static Character targetUser(Character user) {
+            return user;
+        }
+
+        public static Character targetSingleEnemy(List<Character> enemies) {
+            //todo
+            return enemies.get(0);
+        }
+
+        public static Character targetSingleAlly(List<Character> allies) {
+            //todo
+            return allies.get(0);
+        }
+
+        public static List<Character> targetMultipleEnemies(List<Character> enemies) {
+            //todo
+            return enemies;
+        }
+
+        public static List<Character> targetMultipleAllies(List<Character> allies) {
+            //todo
+            return allies;
+        }
+
+
+    }
+
+
+
 
     public int getActionPointsCost() {
         return actionPointsCost;
@@ -39,13 +69,6 @@ public abstract class Ability {
         this.classType = classType;
     }
 
-    public TargetSelectionStrategy getTargetSelectionStrategy() {
-        return targetSelectionStrategy;
-    }
-
-    public void setTargetSelectionStrategy(TargetSelectionStrategy targetSelectionStrategy) {
-        this.targetSelectionStrategy = targetSelectionStrategy;
-    }
 
     public int getCountDown() {
         return countDown;

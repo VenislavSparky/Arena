@@ -1,4 +1,4 @@
-package org.example.Shop;
+package org.example.Shops;
 
 public interface Shop {
 }

@@ -11,7 +11,6 @@ import java.util.Scanner;
 
 public abstract class Character {
 
-    private int level;
     private int gold;
     private int totalHealth;
     private int currentHealth;
@@ -24,6 +23,8 @@ public abstract class Character {
 
     private Map<Slot, Equipment> equipments;
     private List<Ability> abilities;
+
+
 
     public boolean selectAbility(Character user, List<Character> allies, List<Character> enemies) {
         if (abilities.isEmpty()) {
@@ -50,39 +51,27 @@ public abstract class Character {
             }
         }
         return true;
-    };
+    }
 
     public void takeDamage(int damage) {
         //TODO CHECK DEAD
         this.currentHealth -= damage;
     }
 
-    ;
 
     public void heal(int health) {
         //TODO CHECK DEAD
         this.currentHealth += health;
     }
 
-    ;
+
 
     public boolean isDead() {
         return currentHealth <= 0;
     }
 
-    ;
-
     public boolean hasEnoughActionPoints(int actionPointsCost) {
         return currentActionPoints - actionPointsCost >= 0;
-    }
-
-
-    public int getLevel() {
-        return level;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
     }
 
     public int getGold() {

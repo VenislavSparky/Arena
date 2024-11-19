@@ -4,15 +4,8 @@ import org.example.Abilities.Ability;
 import org.example.Characters.Character;
 
 import java.util.List;
+import java.util.function.Supplier;
 
 public class Warrior extends Hero {
 
-
-    @Override
-    public boolean selectAbility(Character user, List<Character> allies, List<Character> enemies) {
-        for (Ability ability : getAbilities()) {
-            ability.use(user, allies,enemies);
-        }
-        return true;
-    }
 }

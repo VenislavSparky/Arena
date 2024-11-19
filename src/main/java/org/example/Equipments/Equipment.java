@@ -1,6 +1,6 @@
 package org.example.Equipments;
 
-public class Equipment {
+public abstract class Equipment {
 
     private Slot itemType;
     private int attackPowerStat;

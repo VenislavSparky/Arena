@@ -1,4 +1,4 @@
-package org.example.Arena;
+package org.example.Arenas;
 
 import org.example.Characters.Heros.Hero;
 
