@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Arena1v1 implements Arena{
+public class Arena1v1 implements Arena {
 
     List<Character> characters;
     List<Character> heroes;
@@ -28,56 +28,62 @@ public class Arena1v1 implements Arena{
 
         loadBattleground(hero);
 
+        System.out.println("1v1 Arena Started!");
+
         while (!isBattleOver()) {
             Character character = characters.get(currentCharacterTurn);
-            boolean endTurn = false;
+            boolean isTurnEnded = false;
+            System.out.printf("%s's Turn\n", character.getClass().getSimpleName());
 
-            while (character.getCurrentActionPoints() == 0 || endTurn) {
+            while (!isTurnEnded) {
 
-                System.out.println("1.Use ability:");
-                System.out.println("2.End turn:");
+
+                System.out.println("Choose: \n1.Use ability\n2.End turn");
                 int selectedOption = Integer.parseInt(scanner.nextLine());
 
                 switch (selectedOption) {
                     case 1:
                         if (character instanceof Hero) {
-                            //TODO Check if Hero is player
                             character.selectAbility(character, heroes, monsters);
                         } else if (character instanceof Monster) {
                             character.selectAbility(character, monsters, heroes);
                         }
                         break;
                     case 2:
-                        endTurn = true;
+                        isTurnEnded = true;
                         break;
                     default:
                         System.out.println("Invalid Option!");
                 }
 
+                removeDead();
+                System.out.println("Action points left: " + character.getCurrentActionPoints());
+                if (character.getCurrentActionPoints() == 0){
+                    isTurnEnded = true;
+                }
             }
-            removeDead();
+
+            character.resetActionPoints();
             nextTurn();
-
         }
-
     }
 
     private boolean isBattleOver() {
+        boolean isOver = false;
         if (monsters.isEmpty()) {
             System.out.println("Heroes won!");
-            return true;
+            isOver = true;
         } else if (heroes.isEmpty()) {
             System.out.println("Monsters won!");
-            return true;
+            isOver = true;
         }
-        return false;
+        return isOver;
     }
 
 
     private void nextTurn() {
         currentCharacterTurn = (currentCharacterTurn + 1) % characters.size(); // Loop back to the first character
     }
-
 
     public void loadBattleground(Hero hero) {
         characters.add(hero);

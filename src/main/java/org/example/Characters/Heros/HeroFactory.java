@@ -1,25 +1,33 @@
 package org.example.Characters.Heros;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.function.Supplier;
+import org.example.Characters.ClassType;
+import org.example.Helpers.TextColor;
+
+import java.util.Arrays;
 
 public class HeroFactory {
 
-    private static final Map<String, Supplier<Hero>> heroRegistry = new HashMap<>();
-
-
-    public static Hero createHero(String heroClass) {
+    public static Hero createHero(ClassType heroClass) {
         Hero hero = null;
 
-        switch (heroClass){
-            case "Warrior":
+        switch (heroClass) {
+            case WARRIOR -> {
                 hero = new Warrior();
-            case "Mage":
-                hero = new Mage();
-            case "Paladin":
-                hero =  new Paladin();
+            }
+            case MAGE -> {
+                //hero = new Mage();
+            }
+            case PALADIN -> {
+                //hero = new Paladin();
+            }
         }
+
         return hero;
+    }
+
+    public static void listAvailableClasses() {
+        Arrays.stream(ClassType.values())
+                .filter(classType -> !ClassType.CHARACTER.equals(classType))
+                .forEach(c -> System.out.println(TextColor.toClassColor(c, c.name())));
     }
 }

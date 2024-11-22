@@ -1,20 +1,21 @@
 package org.example.Abilities.PaladinAbilities;
 
 import org.example.Abilities.Ability;
+import org.example.Abilities.AbilityRegistry;
 import org.example.Characters.Character;
 import org.example.Characters.ClassType;
 
 import java.util.List;
-import java.util.Set;
 
 public class Heal extends Ability {
 
     private static final int HEALTH = 30;
     private static final int ACTION_POINTS_COST = 2;
-    private static final Set<ClassType> ALLOWED_CLASSES = Set.of(ClassType.PALADIN);
+    private static final ClassType ALLOWED_CLASSES = ClassType.WARRIOR;
 
-    private Heal() {
-        super(ACTION_POINTS_COST, ALLOWED_CLASSES);
+    public Heal() {
+        super(ACTION_POINTS_COST, ALLOWED_CLASSES,"Heal spell");
+        AbilityRegistry.registerAbility("Heal", this);
     }
 
     @Override

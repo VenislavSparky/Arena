@@ -1,5 +1,7 @@
 package org.example.Helpers;
 
+import org.example.Characters.ClassType;
+
 public class TextColor {
 
     // ANSI escape codes for colors
@@ -18,6 +20,25 @@ public class TextColor {
 
     public static String toGreen(String text) {
         return GREEN + text + RESET;
+    }
+
+    public static String toClassColor(ClassType classType, String text) {
+        switch (classType){
+            case WARRIOR -> {
+                return "\u001B[35m" + text + RESET;
+            }
+            case MAGE -> {
+                return "\u001B[34m" + text + RESET;
+            }
+            case PALADIN -> {
+                return "\u001B[33m" + text + RESET;
+            }
+            case CHARACTER -> {
+                return "\u001B[0m" + text + RESET;
+            }
+        }
+
+        return "\u001B[0m" + text + RESET;
     }
 
 }
