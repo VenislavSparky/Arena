@@ -1,41 +1,61 @@
 package org.example.Abilities;
 
-import lombok.AllArgsConstructor;
+import jakarta.persistence.*;
 import lombok.Getter;
-import org.example.Characters.Character;
-import org.example.Characters.ClassType;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.example.Abilities.Effects.Effect;
+import org.example.Abilities.TargetingStrategies.TargetingStrategy;
+import org.example.Characters.GameCharacter;
+import org.example.Characters.CharacterClass;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 
 @Getter
-@AllArgsConstructor
+@Setter
+@NoArgsConstructor
+@jakarta.persistence.Entity
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Table(name = "abilities")
+@DiscriminatorColumn(name = "ability_type", discriminatorType = DiscriminatorType.STRING)
 public abstract class Ability {
 
-    private int actionPointsCost;
-    private ClassType classType;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private int energyCost;
     private String description;
+    @Enumerated(EnumType.STRING)
+    private CharacterClass characterClass;
 
-    public abstract boolean use(Character user, List<Character> allies, List<Character> enemies);
+    @Transient
+    private Effect effect;
+    @Transient
+    private TargetingStrategy targetingStrategy;
 
-    protected static class TargetingStrategies {
-
-        public static Character targetUser(Character user) {
-            return user;
-        }
-
-        public static Character chooseSingleTarget(List<Character> possibleTargets) {
-            //todo selection logic
-            return possibleTargets.get(0);
-        }
-
-        public static List<Character> chooseMultipleTargets(int targetCount,List<Character> possibleTargets) {
-            List<Character> chosenTargets = new ArrayList<>();
-            chosenTargets.add(possibleTargets.get(0));
-            //todo selection logic
-            return chosenTargets;
-        }
-
+    public Ability(int energyCost, String description, CharacterClass characterClass, Effect effect, TargetingStrategy targetingStrategy) {
+        this.energyCost = energyCost;
+        this.description = description;
+        this.characterClass = characterClass;
+        this.effect = effect;
+        this.targetingStrategy = targetingStrategy;
     }
 
+    public abstract void use(GameCharacter user, List<GameCharacter> allies, List<GameCharacter> enemies);
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Ability ability = (Ability) o;
+        return energyCost == ability.energyCost && Objects.equals(id, ability.id) && Objects.equals(description, ability.description) && characterClass == ability.characterClass && Objects.equals(effect, ability.effect) && Objects.equals(targetingStrategy, ability.targetingStrategy);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, energyCost, description, characterClass, effect, targetingStrategy);
+    }
 }

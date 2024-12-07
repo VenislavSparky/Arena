@@ -1,4 +1,6 @@
 package org.example.Abilities.PaladinAbilities;
 
-public class CrusaderStrike {
+public class CrusaderStrike  {
+
+
 }

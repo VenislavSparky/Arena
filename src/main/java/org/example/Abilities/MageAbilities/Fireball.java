@@ -1,29 +1,30 @@
 package org.example.Abilities.MageAbilities;
 
+
 import org.example.Abilities.Ability;
-import org.example.Abilities.AbilityRegistry;
-import org.example.Characters.Character;
-import org.example.Characters.ClassType;
+import org.example.Abilities.Effects.NoEffect;
+import org.example.Abilities.Effects.Effect;
+import org.example.Abilities.TargetingStrategies.TargetingStrategy;
+import org.example.Characters.GameCharacter;
+import org.example.Characters.CharacterClass;
 
 import java.util.List;
 
+@jakarta.persistence.Entity
 public class Fireball extends Ability {
 
-    private static final int DAMAGE = 30;
-    private static final int ACTION_POINTS_COST = 3;
-    private static final ClassType ALLOWED_CLASSES = ClassType.MAGE;
+    private static final int ENERGY = 20;
+    private static final String DESCRIPTION = "Heal for 30!";
+    private static final CharacterClass ALLOWED_CLASS = CharacterClass.PALADIN;
+    private static final TargetingStrategy TARGETING_STRATEGY = new SelfTargetStrategy();
+    private static final Effect STATUS_EFFECT = new NoEffect();
 
     public Fireball() {
-        super(ACTION_POINTS_COST, ALLOWED_CLASSES, "Fireball");
-        AbilityRegistry.registerAbility("Fireball", this);
+        super(ENERGY,DESCRIPTION,ALLOWED_CLASS,STATUS_EFFECT,TARGETING_STRATEGY);
     }
 
     @Override
-    public boolean use(Character user, List<Character> allies, List<Character> enemies) {
-        Character target = TargetingStrategies.chooseSingleTarget(enemies);
-        target.takeDamage(DAMAGE);
-        return true;
+    public void use(GameCharacter user, List<GameCharacter> allies, List<GameCharacter> enemies) {
+
     }
-
-
 }
