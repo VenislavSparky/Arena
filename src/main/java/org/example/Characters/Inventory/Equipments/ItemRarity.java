@@ -7,12 +7,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ItemRarity {
     COMMON("Common", 1),
-    UNCOMMON("Uncommon", 1.25),
-    RARE("Rare", 1.75),
-    EPIC("Epic", 2.25),
+    UNCOMMON("Uncommon", 1.25f),
+    RARE("Rare", 1.75f),
+    EPIC("Epic", 2.25f),
     LEGENDARY("Legendary", 3);
 
     private final String displayName;
-    private final double multiplier;
+    private final float multiplier;
 
 }

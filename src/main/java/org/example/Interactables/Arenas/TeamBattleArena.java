@@ -11,7 +11,7 @@ public class TeamBattleArena extends Arena {
     protected void prepareArena(PlayerCharacter playerCharacter) {
         entities.add(playerCharacter);
         heroes.add(playerCharacter);
-//TODO EXTRACT METHODS ?
+        //TODO EXTRACT METHODS ?
         NonPlayerCharacter HostileNPCOne = NPCFactory.createHostileNPC();
         entities.add(HostileNPCOne);
         monsters.add(HostileNPCOne);
@@ -27,11 +27,21 @@ public class TeamBattleArena extends Arena {
 
     @Override
     protected String getArenaType() {
-        return "2v2";
+        return "Team";
     }
 
     @Override
     public void endArena(PlayerCharacter playerCharacter) {
-
+        if (monsters.isEmpty()) {
+            System.out.println("Hero won!");
+            playerCharacter.updateWins();
+            playerCharacter.receiveGold(20 + playerCharacter.getLevel());
+            playerCharacter.gainExp(50);
+        } else {
+            System.out.println("Monster won!");
+            playerCharacter.updateLosses();
+            playerCharacter.receiveGold(10 + playerCharacter.getLevel());
+            playerCharacter.gainExp(10);
+        }
     }
 }

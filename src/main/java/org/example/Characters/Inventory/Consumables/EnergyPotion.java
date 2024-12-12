@@ -5,13 +5,13 @@ import org.example.Characters.GameCharacter;
 
 @Entity
 public class EnergyPotion extends Consumable {
-    @Override
-    public String getDescription() {
-        return "Restores all Energy. Can be used only once per battle!";
+
+    public EnergyPotion() {
+        super("Restores 30 Energy.");
     }
 
     @Override
     public void use(GameCharacter gameCharacter) {
-        gameCharacter.regenEnergy();
+        gameCharacter.receiveEnergy();
     }
 }

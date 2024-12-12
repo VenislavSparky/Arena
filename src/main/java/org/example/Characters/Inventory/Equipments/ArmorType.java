@@ -6,14 +6,14 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum ArmorType {
-    CLOTH("Cloth",0.1,0.05, 0.2, 0.6),
-    LEATHER("Leather",0.1,0.7, 0.2, 0.3),
-    PLATE("Plate",0.3,0.4, 0.6, 0.05);
+    CLOTH("Cloth",0.1f,0.05f, 0.2f, 0.6f),
+    LEATHER("Leather",0.1f,0.7f, 0.2f, 0.3f),
+    PLATE("Plate",0.3f,0.4f, 0.6f, 0.05f);
 
     private final String displayName;
-    private final double staminaMultiplier;
-    private final double strengthMultiplier;
-    private final double armorMultiplier;
-    private final double intellectMultiplier;
+    private final float staminaMultiplier;
+    private final float strengthMultiplier;
+    private final float armorMultiplier;
+    private final float intellectMultiplier;
 
 }

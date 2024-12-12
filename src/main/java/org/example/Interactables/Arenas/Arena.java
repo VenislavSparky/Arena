@@ -22,22 +22,28 @@ public abstract class Arena implements Interactable {
 
     public void interact(PlayerCharacter playerCharacter) {
         prepareArena(playerCharacter);
+        playerCharacter.initCurrentStats();
 
         System.out.println(getArenaType() + " Arena Started!");
         while (isBattleOngoing()) {
             GameCharacter gameCharacter = entities.get(currentEntityTurn);
             System.out.printf("(%s) %s's Turn\n", gameCharacter.getCharacterClass(), gameCharacter.getName());
+
             boolean isTurnEnded = false;
+
             while (!isTurnEnded && isBattleOngoing()) {
-                isTurnEnded = gameCharacter.performActions(gameCharacter, heroes, monsters);
+                isTurnEnded = gameCharacter.performActions(heroes, monsters);
                 removeDead();
             }
             gameCharacter.endTurn();
+            removeDead();
             System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
             nextTurn();
         }
 
+
         endArena(playerCharacter);
+        clearArena();
     }
 
     final boolean isBattleOngoing() {
@@ -52,6 +58,12 @@ public abstract class Arena implements Interactable {
         entities.removeIf(GameCharacter::isDead);
         monsters.removeIf(GameCharacter::isDead);
         heroes.removeIf(GameCharacter::isDead);
+    }
+
+    public void clearArena() {
+        entities.clear();
+        heroes.clear();
+        monsters.clear();
     }
 
     protected abstract void prepareArena(PlayerCharacter playerCharacter);

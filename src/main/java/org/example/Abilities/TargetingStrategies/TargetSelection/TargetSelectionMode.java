@@ -4,6 +4,6 @@ import org.example.Characters.GameCharacter;
 
 import java.util.List;
 
-public interface TargetSelection {
+public interface TargetSelectionMode {
   List<GameCharacter> select(List<GameCharacter> possibleTargets, int count);
 }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class PlayerSelection implements TargetSelection {
+public class PlayerSelectionMode implements TargetSelectionMode {
     @Override
     public List<GameCharacter> select(List<GameCharacter> possibleTargets, int count) {
         Scanner scanner = new Scanner(System.in);
@@ -15,7 +15,7 @@ public class PlayerSelection implements TargetSelection {
         List<GameCharacter> availableTargets = new ArrayList<>(possibleTargets);
 
         while (targets.size() < count) {
-            System.out.println("Select targets: (Targets left - " + (count - targets.size()) + ")");
+            System.out.println("Select targets: (Targets left: " + (count - targets.size()) + ")");
             for (int i = 0; i < availableTargets.size(); i++) {
                 System.out.println((i + 1) + ". " + availableTargets.get(i));
             }

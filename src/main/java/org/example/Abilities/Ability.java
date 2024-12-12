@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.example.Abilities.Effects.Effect;
+import org.example.Abilities.TargetingStrategies.TargetSelection.TargetSelectionMode;
 import org.example.Abilities.TargetingStrategies.TargetingStrategy;
 import org.example.Characters.GameCharacter;
 import org.example.Characters.CharacterClass;
@@ -16,7 +17,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-@jakarta.persistence.Entity
+@Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "abilities")
 @DiscriminatorColumn(name = "ability_type", discriminatorType = DiscriminatorType.STRING)
@@ -44,7 +45,13 @@ public abstract class Ability {
         this.targetingStrategy = targetingStrategy;
     }
 
-    public abstract void use(GameCharacter user, List<GameCharacter> allies, List<GameCharacter> enemies);
+    public abstract void use(GameCharacter user, List<GameCharacter> allies, List<GameCharacter> enemies, TargetSelectionMode targetSelectionMode);
+
+
+    public boolean isAvailable(GameCharacter user) {
+        return user.hasEnoughEnergy(this.getEnergyCost());
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -58,4 +65,8 @@ public abstract class Ability {
     public int hashCode() {
         return Objects.hash(id, energyCost, description, characterClass, effect, targetingStrategy);
     }
+
+
+
+
 }

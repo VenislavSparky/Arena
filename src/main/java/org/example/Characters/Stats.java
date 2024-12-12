@@ -1,24 +1,25 @@
 package org.example.Characters;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.Utils.TextUtil;
 
 @NoArgsConstructor
 @Embeddable
+@Getter
 public class Stats {
 
-    private double stamina;
-    private double strength;
-    private double armor;
-    private double intellect;
-    private double criticalChance;
+    private int stamina;
+    private int strength;
+    private int armor;
+    private int intellect;
 
-    public Stats(double stamina, double strength, double armor, double intellect, double criticalChance) {
+    public Stats(int stamina, int strength, int armor, int intellect) {
         this.stamina = stamina;
         this.strength = strength;
         this.armor = armor;
-        this.intellect = intellect;
-        this.criticalChance = criticalChance;
+        this.intellect = intellect;;
     }
 
     public void add(Stats other) {
@@ -26,7 +27,6 @@ public class Stats {
         this.strength += other.strength;
         this.armor += other.armor;
         this.intellect += other.intellect;
-        this.criticalChance += other.criticalChance;
     }
 
     public void subtract(Stats other) {
@@ -34,35 +34,14 @@ public class Stats {
         this.strength -= other.strength;
         this.armor -= other.armor;
         this.intellect -= other.intellect;
-        this.criticalChance -= other.criticalChance;
     }
 
-    public int getFinalStamina() {
-        return (int) Math.round(stamina);
-    }
-
-    public int getFinalStrength() {
-        return (int) Math.round(strength);
-    }
-
-    public int getFinalArmor() {
-        return (int) Math.round(armor);
-    }
-
-    public int getFinalIntellect() {
-        return (int) Math.round(intellect);
-    }
-
-    public int getFinalCriticalChance() {
-        return (int) Math.round(criticalChance * 100);
-    }
 
     @Override
     public String toString() {
-        return String.format(
-                "Stats [Stamina=%d, Strength=%d, Armor=%d, Intellect=%d, Critical Chance=%d%%]",
-                getFinalStamina(), getFinalStrength(), getFinalArmor(), getFinalIntellect(), getFinalCriticalChance()
-        );
+        return String.format(TextUtil.WHITE +
+                "Stats [Stamina=%d, Strength=%d, Armor=%d, Intellect=%d]" + TextUtil.RESET,
+                getStamina(), getStrength(), getArmor(), getIntellect());
     }
 
 }

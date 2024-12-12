@@ -26,7 +26,7 @@ public class Inventory {
     private List<ConsumableQuantity> consumables = new ArrayList<>();
 
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "inventory", orphanRemoval = true)
     private List<Equipment> equipments = new ArrayList<>();
 
     public void add(Consumable consumable) {
@@ -67,5 +67,9 @@ public class Inventory {
         } else {
             equipments.forEach(System.out::println);
         }
+    }
+
+    public void decrementConsumable(ConsumableQuantity selected) {
+
     }
 }

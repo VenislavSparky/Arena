@@ -4,9 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.example.Characters.Inventory.Inventory;
 import org.example.Characters.Stats;
-import org.example.Characters.PlayerCharacter.PlayerCharacter;
-import org.example.Utils.TextColorUtil;
+import org.example.Utils.TextUtil;
 
 @Getter
 @NoArgsConstructor
@@ -20,6 +20,10 @@ public class Equipment {
     private Long id;
 
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "inventory_id")
+    private Inventory inventory;
 
     @Enumerated(EnumType.STRING)
     private Slot slotType;
@@ -44,7 +48,7 @@ public class Equipment {
     @Override
     public String toString() {
         String text = String.format("%s Stats: %s", name, stats );
-        return TextColorUtil.toRarityColor(itemRarity, text);
+        return TextUtil.toRarityColor(itemRarity, text);
     }
 
 }

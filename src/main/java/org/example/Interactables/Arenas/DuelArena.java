@@ -19,7 +19,7 @@ public class DuelArena extends Arena {
 
     @Override
     protected String getArenaType() {
-        return "1v1";
+        return "Duel";
     }
 
     @Override
@@ -27,9 +27,12 @@ public class DuelArena extends Arena {
         if (monsters.isEmpty()) {
             System.out.println("Hero won!");
             playerCharacter.updateWins();
+            playerCharacter.receiveGold(10 + playerCharacter.getLevel());
+            playerCharacter.gainExp(30);
         } else {
             System.out.println("Monster won!");
             playerCharacter.updateLosses();
+            playerCharacter.receiveGold(5 + playerCharacter.getLevel());
         }
     }
 

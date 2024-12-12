@@ -23,9 +23,12 @@ public abstract class GameCharacter {
     private Long id;
     private String name;
     @Enumerated(EnumType.STRING)
+    @Column(name = "class")
     private CharacterClass characterClass;
     private int level;
+    @Column(name = "max_health")
     private int maxHealth;
+    @Column(name = "max_energy")
     private int maxEnergy;
 
     @Transient
@@ -35,7 +38,7 @@ public abstract class GameCharacter {
 
     @Embedded
     private Stats stats;
-    private int gold = 100;
+    private int gold;
 
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private List<Ability> abilities = new ArrayList<>();
@@ -60,35 +63,30 @@ public abstract class GameCharacter {
         this.maxEnergy = maxEnergy;
         this.currentEnergy = maxEnergy;
         this.stats = stats;
-        //todo learn
         this.abilities.add(ability);
     }
 
-    public abstract boolean performActions(GameCharacter gameCharacter, List<GameCharacter> heroes, List<GameCharacter> monsters);
-
-    public abstract void chooseAbility(GameCharacter user, List<GameCharacter> heroes, List<GameCharacter> monsters);
+    public abstract boolean performActions(List<GameCharacter> heroes, List<GameCharacter> monsters);
 
     public void endTurn() {
-        regenEnergy();
-    }
-
-    public void startTurn() {
+        receiveEnergy();
         activateEffects();
     }
 
     public int getMaxHealth() {
-        return maxHealth + getStats().getFinalArmor();
+        return maxHealth + getStats().getStamina();
     }
 
     public int receiveDamage(int damage) {
-        int trueDamage = Math.max(damage - getStats().getFinalArmor(), 0);
-        setCurrentHealth(getCurrentHealth() - trueDamage);
-        System.out.printf("%s took %d damage. Health left - %d\n", getName(), trueDamage, getCurrentHealth());
+        int trueDamage = Math.max(damage - getStats().getArmor(), 0);
+        setCurrentHealth(Math.max(getCurrentHealth() - trueDamage, 0));
+        System.out.printf("%s took %d damage. Health left: %d\n", getName(), trueDamage, getCurrentHealth());
         return trueDamage;
     }
 
     public void receiveHeal(int health) {
         setCurrentHealth(Math.min(getCurrentHealth() + health, getMaxHealth()));
+        System.out.printf("%s restored %d health. Health left: %d\n", getName(), health, getCurrentHealth());
     }
 
     public boolean isDead() {
@@ -100,17 +98,21 @@ public abstract class GameCharacter {
     }
 
     public void consumeEnergy(int energyCost) {
-        //TODO CHECK ACTION POINTS
         currentEnergy -= energyCost;
     }
 
-    public void regenEnergy() {
+    public void receiveEnergy() {
         setCurrentEnergy(Math.min(getCurrentEnergy() + 30, getMaxEnergy()));
+    }
+
+    public void receiveEnergy(int energy) {
+        setCurrentEnergy(Math.min(getCurrentEnergy() + energy, getMaxEnergy()));
     }
 
     public void initCurrentStats() {
         setCurrentHealth(getMaxHealth());
         setCurrentEnergy(getMaxEnergy());
+        getEffects().clear();
     }
 
 
@@ -124,9 +126,14 @@ public abstract class GameCharacter {
 
     public void activateEffects() {
         for (Effect effect : effects) {
+            if (effect.getDuration() == 0) {
+                removeEffect(effect);
+                return;
+            }
             effect.activate(this);
             effect.decrementDuration();
         }
+
 
     }
 

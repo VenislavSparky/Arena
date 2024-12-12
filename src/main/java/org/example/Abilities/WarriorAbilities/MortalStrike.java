@@ -1,4 +1,5 @@
-package org.example.Abilities.PaladinAbilities;
+package org.example.Abilities.WarriorAbilities;
+
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -8,22 +9,22 @@ import org.example.Abilities.Effects.NoEffect;
 import org.example.Abilities.TargetingStrategies.SingleTargetStrategy;
 import org.example.Abilities.TargetingStrategies.TargetSelection.TargetSelectionMode;
 import org.example.Abilities.TargetingStrategies.TargetingStrategy;
-import org.example.Characters.CharacterClass;
 import org.example.Characters.GameCharacter;
+import org.example.Characters.CharacterClass;
 
 import java.util.List;
 
 @Entity
-@DiscriminatorValue("CrusaderStrike")
-public class CrusaderStrike  extends Ability {
-    private static final int DAMAGE = 25;
-    private static final int ENERGY = 35;
-    private static final String DESCRIPTION = String.format("Holy strike that deals %d damage costing %d energy.",DAMAGE,ENERGY );
-    private static final CharacterClass ALLOWED_CLASS = CharacterClass.PALADIN;
+@DiscriminatorValue("MortalStrike")
+public class MortalStrike extends Ability {
+    private static final int DAMAGE = 30;
+    private static final int ENERGY = 40;
+    private static final String DESCRIPTION = String.format("Powerful strike that deals %d damage costing %d energy.",DAMAGE,ENERGY );
+    private static final CharacterClass ALLOWED_CLASS = CharacterClass.WARRIOR;
     private static final TargetingStrategy TARGETING_STRATEGY = new SingleTargetStrategy();
     private static final Effect EFFECT = new NoEffect();
 
-    public CrusaderStrike() {
+    public MortalStrike() {
         super(ENERGY, DESCRIPTION, ALLOWED_CLASS, EFFECT, TARGETING_STRATEGY);
     }
 
@@ -34,5 +35,4 @@ public class CrusaderStrike  extends Ability {
             target.receiveDamage(DAMAGE + user.getStats().getStrength());
         }
     }
-
 }

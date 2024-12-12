@@ -2,8 +2,16 @@ package org.example.Abilities;
 
 import jakarta.persistence.EntityManager;
 import org.example.Abilities.MageAbilities.Fireball;
-import org.example.Abilities.PaladinAbilities.Heal;
-import org.example.Abilities.WarriorAbilities.HeroicStrike;
+import org.example.Abilities.MageAbilities.Flamestrike;
+import org.example.Abilities.MageAbilities.Ignite;
+import org.example.Abilities.PaladinAbilities.CrusaderStrike;
+import org.example.Abilities.PaladinAbilities.DivineStorm;
+import org.example.Abilities.PaladinAbilities.FlashOfLight;
+import org.example.Abilities.PaladinAbilities.LayOfHands;
+import org.example.Abilities.WarriorAbilities.Bloodrage;
+import org.example.Abilities.WarriorAbilities.Execute;
+import org.example.Abilities.WarriorAbilities.MortalStrike;
+import org.example.Abilities.WarriorAbilities.Whirlwind;
 import org.example.Utils.EntityManagerFactoryUtil;
 
 import java.util.HashMap;
@@ -18,8 +26,16 @@ public class AbilityRegistry {
 
     static {
         registerAbilityClass(Fireball.class);
-        registerAbilityClass(Heal.class);
-        registerAbilityClass(HeroicStrike.class);
+        registerAbilityClass(Flamestrike.class);
+        registerAbilityClass(Ignite.class);
+        registerAbilityClass(CrusaderStrike.class);
+        registerAbilityClass(DivineStorm.class);
+        registerAbilityClass(FlashOfLight.class);
+        registerAbilityClass(LayOfHands.class);
+        registerAbilityClass(Bloodrage.class);
+        registerAbilityClass(Execute.class);
+        registerAbilityClass(MortalStrike.class);
+        registerAbilityClass(Whirlwind.class);
         loadAbilitiesFromDatabase();
         loadNewAbilitiesToDatabase();
     }

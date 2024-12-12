@@ -6,13 +6,13 @@ import org.example.Characters.GameCharacter;
 @Entity
 public class HealthPotion extends Consumable {
 
-    @Override
-    public String getDescription() {
-        return "Restore 20 health. Can be used only once per battle!";
+    public HealthPotion() {
+        super("Restore 50 health.");
     }
+
 
     @Override
     public void use(GameCharacter gameCharacter) {
-            gameCharacter.setCurrentHealth(gameCharacter.getCurrentHealth() + 50);
+            gameCharacter.receiveHeal(50);
     }
 }

@@ -19,15 +19,14 @@ public class EquipmentFactory {
         String name = String.format("%s %s %s", rarity.getDisplayName(), armorType.getDisplayName(), slot.getDisplayName());
 
 
-        return new Equipment(name, slot, rarity, armorType,stats );
+        return new Equipment(name, slot, rarity, armorType, stats);
     }
 
-    private static Stats getRandomStats(double baseStat, ArmorType armorType) {
-        return new Stats(baseStat * armorType.getStaminaMultiplier(),
-                baseStat * armorType.getStrengthMultiplier(),
-                baseStat * armorType.getArmorMultiplier(),
-                baseStat * armorType.getIntellectMultiplier(), 0.1
-        );
+    private static Stats getRandomStats(float baseStat, ArmorType armorType) {
+        return new Stats(Math.round(baseStat * armorType.getStaminaMultiplier()),
+                Math.round(baseStat * armorType.getStrengthMultiplier()),
+                        Math.round(baseStat * armorType.getArmorMultiplier()),
+                                Math.round(baseStat * armorType.getIntellectMultiplier()));
 
     }
 
@@ -50,9 +49,6 @@ public class EquipmentFactory {
             case MAGE -> {
                 armorType = ArmorType.CLOTH;
             }
-            case ROGUE -> {
-                armorType = ArmorType.LEATHER;
-            }
             default ->
                     throw new IllegalArgumentException("Unsupported class type when trying to get armor type: " + gameCharacter.getCharacterClass());
         }
@@ -65,8 +61,8 @@ public class EquipmentFactory {
         return slots[random.nextInt(slots.length)];
     }
 
-    private static double getRandomBaseStatScaled(int level, ItemRarity rarity) {
-        double stat = ThreadLocalRandom.current().nextDouble(level + rarity.getMultiplier(), 6 + level);
+    private static float getRandomBaseStatScaled(int level, ItemRarity rarity) {
+        float stat = ThreadLocalRandom.current().nextFloat(level + rarity.getMultiplier(), 6 + level);
         return stat * rarity.getMultiplier();
     }
 

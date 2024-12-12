@@ -1,14 +1,20 @@
 package org.example.Abilities.TargetingStrategies;
 
-
-import org.example.Abilities.TargetingStrategies.TargetSelection.TargetSelection;
+import org.example.Abilities.TargetingStrategies.TargetSelection.TargetSelectionMode;
 import org.example.Characters.GameCharacter;
 
 import java.util.List;
 
-public class MultiTargetStrategy extends TargetingStrategy {
+public class MultiTargetStrategy implements TargetingStrategy {
 
-    public MultiTargetStrategy(GameCharacter user, List<GameCharacter> possibleTargets, TargetSelection targetSelection, int count) {
-        super(user, possibleTargets, targetSelection, count);
+    int targetCount;
+
+    public MultiTargetStrategy(int targetCount) {
+        this.targetCount = targetCount;
+    }
+
+    @Override
+    public List<GameCharacter> getTargets(GameCharacter user, List<GameCharacter> possibleTargets, TargetSelectionMode targetSelectionMode) {
+        return possibleTargets.size() <= targetCount ? possibleTargets : targetSelectionMode.select(possibleTargets, targetCount);
     }
 }

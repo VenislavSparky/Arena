@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class NPCSelection implements TargetSelection {
+public class AutoSelectionMode implements TargetSelectionMode {
     @Override
     public List<GameCharacter> select(List<GameCharacter> possibleTargets, int count) {
         List<GameCharacter> targets = new ArrayList<>();

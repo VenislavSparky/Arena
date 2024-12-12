@@ -1,9 +1,9 @@
 package org.example.Interactables.Shops;
 
+import org.example.GameMenu;
 import org.example.Interactables.Interactable;
-import org.example.Characters.GameCharacter;
 import org.example.Characters.PlayerCharacter.PlayerCharacter;
-import org.example.Utils.TextColorUtil;
+import org.example.Utils.TextUtil;
 import org.example.Characters.Inventory.Consumables.EnergyPotion;
 import org.example.Characters.Inventory.Consumables.Consumable;
 import org.example.Characters.Inventory.Consumables.HealthPotion;
@@ -37,8 +37,7 @@ public class ConsumablesShop implements Interactable {
     @Override
     public void interact(PlayerCharacter playerCharacter) {
         Scanner scanner = new Scanner(System.in);
-        displayItems();
-        System.out.println("Select:\n1. Buy\n2. Exit");
+        System.out.println("Consumables Shop - Select:\n1. Buy\n2. Exit");
         int option = Integer.parseInt(scanner.nextLine());
 
         switch (option) {
@@ -55,7 +54,7 @@ public class ConsumablesShop implements Interactable {
         int selectedOption = Integer.parseInt(scanner.nextLine()) - 1;
 
         if (selectedOption < 0 || selectedOption >= availableConsumables.size()) {
-            System.out.println(TextColorUtil.toRed("Invalid selection! Returning to shop menu."));
+            System.out.println(TextUtil.toRed("Invalid selection! Returning to shop menu."));
             return;
         }
 
@@ -68,7 +67,7 @@ public class ConsumablesShop implements Interactable {
             System.out.printf("You bought one %s for %d gold.%n",
                     selectedConsumable.getClass().getSimpleName(), price);
         } else {
-            System.out.println(TextColorUtil.toRed("Not enough gold to buy this item!"));
+            System.out.println(TextUtil.toRed("Not enough gold to buy this item!"));
         }
     }
 

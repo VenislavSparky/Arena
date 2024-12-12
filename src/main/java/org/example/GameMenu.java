@@ -11,6 +11,7 @@ import org.example.Interactables.Shops.Armory;
 import org.example.Interactables.Shops.ConsumablesShop;
 import org.example.Interactables.Trainers.ClassTrainer;
 import org.example.Utils.EntityManagerFactoryUtil;
+import org.example.Utils.TextUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,9 +52,9 @@ public class GameMenu {
     public static void getMainMenu(PlayerCharacter playerCharacter) {
         Scanner scanner = new Scanner(System.in);
 
-        List<Interactable> interactables = initializeInteractables(playerCharacter);
-
         while (true) {
+            List<Interactable> interactables = initializeInteractables(playerCharacter);
+            TextUtil.printSeparator();
             System.out.println("Where would you like to go?");
             for (int i = 0; i < interactables.size(); i++) {
                 System.out.printf("%d. %s\n", i + 1, interactables.get(i).getClass().getSimpleName());
@@ -66,12 +67,13 @@ public class GameMenu {
                 int option = Integer.parseInt(scanner.nextLine());
 
                 if (option >= 1 && option <= interactables.size()) {
+                    TextUtil.printSeparator();
                     interactables.get(option - 1).interact(playerCharacter);
                 } else if (option == interactables.size() + 1) {
                     editCharacter(playerCharacter);
                 } else if (option == interactables.size() + 2) {
                     saveGame(playerCharacter);
-                    System.out.println("Game saved. Exiting...");
+                    System.out.println("Exiting ...");
                     System.exit(0);
                 } else {
                     System.out.println("Invalid option! Please try again.");
@@ -79,6 +81,7 @@ public class GameMenu {
             } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 System.out.println("Please enter a valid option.");
             }
+            saveGame(playerCharacter);
         }
     }
 
@@ -87,6 +90,9 @@ public class GameMenu {
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
+            TextUtil.printSeparator();
+            System.out.println(playerCharacter);
+            System.out.println(playerCharacter.getStats());
             System.out.println("Character Editing Menu:");
             System.out.println("1. Equip an item");
             System.out.println("2. Unequip an item");
@@ -132,7 +138,7 @@ public class GameMenu {
             List<PlayerCharacter> characters = query.getResultList();
 
             if (characters.isEmpty()) {
-                System.out.println("No characters found in the database.");
+                System.out.println("No existing character found.");
                 return PlayerCharacterFactory.createPlayerCharacter();
             }
 
@@ -143,10 +149,18 @@ public class GameMenu {
 
             while (true) {
                 System.out.print("Select a character (number): ");
-                int option = Integer.parseInt(scanner.nextLine()) - 1;
+
+                int option = -1;
+                try {
+                    option = Integer.parseInt(scanner.nextLine()) - 1;
+                } catch (NumberFormatException e) {
+                    System.out.println(TextUtil.toRed("Invalid input. Please enter a number."));
+                }
 
                 if (option >= 0 && option < characters.size()) {
-                    return characters.get(option);
+                    PlayerCharacter playerCharacter = characters.get(option);
+                    playerCharacter.initCurrentStats();
+                    return playerCharacter;
                 } else {
                     System.out.println("Invalid selection. Try again.");
                 }
@@ -158,6 +172,7 @@ public class GameMenu {
 
 
     private static void equipItem(PlayerCharacter playerCharacter, Scanner scanner) {
+        TextUtil.printSeparator();
         List<Equipment> equipment = playerCharacter.getInventory().getEquipments();
 
         if (equipment.isEmpty()) {
@@ -181,6 +196,7 @@ public class GameMenu {
 
 
     private static void unequipItem(PlayerCharacter playerCharacter, Scanner scanner) {
+        TextUtil.printSeparator();
         List<Equipment> equippedItems = new ArrayList<>(playerCharacter.getEquipped().values());
 
         if (equippedItems.isEmpty()) {
@@ -208,6 +224,7 @@ public class GameMenu {
             em.getTransaction().begin();
             em.merge(playerCharacter);
             em.getTransaction().commit();
+            System.out.println("Game saved!");
         } catch (Exception e) {
             System.out.println("Failed to save the game: " + e.getMessage());
         }
