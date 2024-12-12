@@ -3,6 +3,7 @@ package org.example.Abilities.WarriorAbilities;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import org.example.Abilities.Ability;
+import org.example.Abilities.Effects.Bleeding;
 import org.example.Abilities.Effects.Effect;
 import org.example.Abilities.Effects.NoEffect;
 import org.example.Abilities.TargetingStrategies.AllTargetStrategy;
@@ -21,7 +22,7 @@ public class Whirlwind extends Ability {
     private static final String DESCRIPTION = String.format("Ability that deals %d base damage to all enemies. Cost %d energy.",DAMAGE,ENERGY );
     private static final CharacterClass ALLOWED_CLASS = CharacterClass.WARRIOR;
     private static final TargetingStrategy TARGETING_STRATEGY = new AllTargetStrategy();
-    private static final Effect EFFECT = new NoEffect();
+    private static final Effect EFFECT = new Bleeding();
 
     public Whirlwind() {
         super(ENERGY, DESCRIPTION, ALLOWED_CLASS, EFFECT, TARGETING_STRATEGY);
