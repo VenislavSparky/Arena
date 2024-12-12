@@ -10,8 +10,8 @@ import java.util.Objects;
 @Getter
 public abstract class Effect implements Cloneable{
 
-    private String name;
-    private String description;
+    private final String name;
+    private final String description;
     private int duration;
 
     public Effect(String name, String description, int duration) {

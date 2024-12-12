@@ -19,7 +19,7 @@ public class Stats {
         this.stamina = stamina;
         this.strength = strength;
         this.armor = armor;
-        this.intellect = intellect;;
+        this.intellect = intellect;
     }
 
     public void add(Stats other) {

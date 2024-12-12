@@ -25,8 +25,8 @@ public class EquipmentFactory {
     private static Stats getRandomStats(float baseStat, ArmorType armorType) {
         return new Stats(Math.round(baseStat * armorType.getStaminaMultiplier()),
                 Math.round(baseStat * armorType.getStrengthMultiplier()),
-                        Math.round(baseStat * armorType.getArmorMultiplier()),
-                                Math.round(baseStat * armorType.getIntellectMultiplier()));
+                Math.round(baseStat * armorType.getArmorMultiplier()),
+                Math.round(baseStat * armorType.getIntellectMultiplier()));
 
     }
 
@@ -41,14 +41,10 @@ public class EquipmentFactory {
     }
 
     private static ArmorType getArmorTypeByCharacterClass(GameCharacter gameCharacter) {
-        ArmorType armorType = null;
+        ArmorType armorType;
         switch (gameCharacter.getCharacterClass()) {
-            case WARRIOR, PALADIN -> {
-                armorType = ArmorType.PLATE;
-            }
-            case MAGE -> {
-                armorType = ArmorType.CLOTH;
-            }
+            case WARRIOR, PALADIN -> armorType = ArmorType.PLATE;
+            case MAGE -> armorType = ArmorType.CLOTH;
             default ->
                     throw new IllegalArgumentException("Unsupported class type when trying to get armor type: " + gameCharacter.getCharacterClass());
         }

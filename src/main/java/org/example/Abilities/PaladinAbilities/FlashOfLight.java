@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import org.example.Abilities.Ability;
 import org.example.Abilities.Effects.NoEffect;
 import org.example.Abilities.Effects.Effect;
-import org.example.Abilities.TargetingStrategies.SelfTargetStrategy;
 import org.example.Abilities.TargetingStrategies.SingleTargetStrategy;
 import org.example.Abilities.TargetingStrategies.TargetSelection.TargetSelectionMode;
 import org.example.Abilities.TargetingStrategies.TargetingStrategy;

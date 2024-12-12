@@ -3,7 +3,6 @@ package org.example.Abilities.MageAbilities;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import org.example.Abilities.Ability;
-import org.example.Abilities.Effects.Burning;
 import org.example.Abilities.Effects.Effect;
 import org.example.Abilities.Effects.NoEffect;
 import org.example.Abilities.TargetingStrategies.AllTargetStrategy;

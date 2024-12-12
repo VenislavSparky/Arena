@@ -1,6 +1,5 @@
 package org.example.Interactables.Shops;
 
-import org.example.GameMenu;
 import org.example.Interactables.Interactable;
 import org.example.Characters.PlayerCharacter.PlayerCharacter;
 import org.example.Utils.TextUtil;
