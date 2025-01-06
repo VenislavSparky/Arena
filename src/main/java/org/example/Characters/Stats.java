@@ -5,10 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.Utils.TextUtil;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @Embeddable
 @Getter
-public class Stats {
+public class Stats implements Serializable {
 
     private int stamina;
     private int strength;

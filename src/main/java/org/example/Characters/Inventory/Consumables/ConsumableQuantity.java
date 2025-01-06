@@ -6,12 +6,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.example.Characters.Inventory.Inventory;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "inventory_consumables")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ConsumableQuantity {
+public class ConsumableQuantity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

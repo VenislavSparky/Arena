@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import org.example.Characters.GameCharacter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
@@ -11,7 +12,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "consumable_type")
 @Table(name = "consumables")
-public abstract class Consumable {
+public abstract class Consumable implements Serializable  {
 
     public Consumable(String description) {
         this.description = description;

@@ -28,7 +28,7 @@ public class PlayerSelectionMode implements TargetSelectionMode {
                 } else {
                     System.out.println("Invalid choice. Please select a valid target.");
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 System.out.println("Invalid input. Please enter a number.");
             }
         }

@@ -2,6 +2,7 @@ package org.example.Characters.Inventory.Equipments;
 
 import org.example.Characters.GameCharacter;
 import org.example.Characters.Stats;
+import org.example.Exceptions.ArmorTypeException;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -46,7 +47,7 @@ public class EquipmentFactory {
             case WARRIOR, PALADIN -> armorType = ArmorType.PLATE;
             case MAGE -> armorType = ArmorType.CLOTH;
             default ->
-                    throw new IllegalArgumentException("Unsupported class type when trying to get armor type: " + gameCharacter.getCharacterClass());
+                    throw new ArmorTypeException("Unsupported class type when trying to get armor type: " + gameCharacter.getCharacterClass());
         }
         return armorType;
     }

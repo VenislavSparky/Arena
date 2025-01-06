@@ -12,11 +12,12 @@ import org.example.Abilities.TargetingStrategies.TargetingStrategy;
 import org.example.Characters.GameCharacter;
 import org.example.Characters.CharacterClass;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @DiscriminatorValue("MortalStrike")
-public class MortalStrike extends Ability {
+public class MortalStrike extends Ability implements Serializable  {
     private static final int DAMAGE = 30;
     private static final int ENERGY = 40;
     private static final String DESCRIPTION = String.format("Powerful strike that deals %d damage costing %d energy.",DAMAGE,ENERGY );
@@ -32,7 +33,7 @@ public class MortalStrike extends Ability {
     public void use(GameCharacter user, List<GameCharacter> allies, List<GameCharacter> enemies, TargetSelectionMode targetSelectionMode) {
         List<GameCharacter> targets = getTargetingStrategy().getTargets(user,enemies, targetSelectionMode);
         for (GameCharacter target : targets) {
-            target.receiveDamage(DAMAGE + user.getStats().getStrength());
+         target.receiveDamage(DAMAGE + user.getStats().getStrength());
         }
     }
 }

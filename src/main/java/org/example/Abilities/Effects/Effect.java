@@ -4,11 +4,12 @@ package org.example.Abilities.Effects;
 import lombok.Getter;
 import org.example.Characters.GameCharacter;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 
 @Getter
-public abstract class Effect implements Cloneable{
+public abstract class Effect implements Cloneable, Serializable {
 
     private final String name;
     private final String description;

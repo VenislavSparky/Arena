@@ -1,16 +1,19 @@
 package org.example.Characters.PlayerCharacter;
 
-import jakarta.persistence.EntityManager;
 import org.example.Abilities.AbilityRegistry;
 import org.example.Characters.CharacterClass;
 import org.example.Characters.Stats;
-import org.example.Utils.EntityManagerFactoryUtil;
+import org.example.Exceptions.DatabaseOperationException;
+import org.example.Repositories.PlayerCharacterRepository;
+import org.example.Repositories.impl.PlayerCharacterRepositoryImpl;
 import org.example.Utils.TextUtil;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class PlayerCharacterFactory {
+
+    private static final PlayerCharacterRepository playerRepository = new PlayerCharacterRepositoryImpl();
 
     public static PlayerCharacter createPlayerCharacter() {
         Scanner scanner = new Scanner(System.in);
@@ -29,22 +32,12 @@ public class PlayerCharacterFactory {
         System.out.println("You have selected class: " + characteClassInput + "\nEnter name: ");
         String name = scanner.nextLine();
 
-        EntityManager em = null;
+        playerCharacter = getPlayerCharacter(CharacterClass.valueOf(characteClassInput), name);
+
         try {
-            em = EntityManagerFactoryUtil.getEntityManager();
-            em.getTransaction().begin();
-            playerCharacter = getPlayerCharacter(CharacterClass.valueOf(characteClassInput), name);
-            em.persist(playerCharacter);
-            em.getTransaction().commit();
-        } catch (Exception e) {
-            if (em != null && em.getTransaction().isActive()) {
-                em.getTransaction().rollback();
-            }
-            throw new RuntimeException("Failed to persist playerCharacter: " + playerCharacter);
-        } finally {
-            if (em != null) {
-                em.close();
-            }
+            playerRepository.saveOrUpdate(playerCharacter);
+        }catch (DatabaseOperationException e){
+            System.out.println(e.getMessage());
         }
 
         return playerCharacter;
@@ -78,6 +71,6 @@ public class PlayerCharacterFactory {
     }
 
     public static void listAvailableClasses() {
-        Arrays.stream(CharacterClass.values()).forEach(c -> System.out.println(c.toString() + " - " +  c.getDescription()));
+        Arrays.stream(CharacterClass.values()).forEach(c -> System.out.println(c.toString() + " - " + c.getDescription()));
     }
 }

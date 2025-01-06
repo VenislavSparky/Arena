@@ -12,6 +12,7 @@ import org.example.Abilities.WarriorAbilities.Bloodrage;
 import org.example.Abilities.WarriorAbilities.Execute;
 import org.example.Abilities.WarriorAbilities.MortalStrike;
 import org.example.Abilities.WarriorAbilities.Whirlwind;
+import org.example.Exceptions.AbilityRegistryException;
 import org.example.Utils.EntityManagerFactoryUtil;
 
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class AbilityRegistry {
             Ability abilityInstance = abilityClass.getDeclaredConstructor().newInstance();
             abilityClassMap.put(abilityInstance.getClass().getSimpleName(), abilityClass);
         } catch (Exception e) {
-            throw new RuntimeException("Failed to register ability class: " + abilityClass.getSimpleName(), e);
+            throw new AbilityRegistryException("Failed to register ability class: " + abilityClass.getSimpleName());
         }
     }
 
@@ -65,7 +66,7 @@ public class AbilityRegistry {
             }
 
         } catch (Exception e) {
-            throw new RuntimeException("Failed to load abilities from the database", e);
+            throw new AbilityRegistryException("Failed to load abilities from the database");
         }
     }
 
@@ -94,7 +95,7 @@ public class AbilityRegistry {
             if (em != null && em.getTransaction().isActive()) {
                 em.getTransaction().rollback();
             }
-            throw new RuntimeException("Failed to persist ability: " + abilityClass.getSimpleName(), e);
+            throw new AbilityRegistryException("Failed to persist ability: " + abilityClass.getSimpleName());
         } finally {
             if (em != null) {
                 em.close();

@@ -75,7 +75,7 @@ public class ClassTrainer implements Interactable {
                 if (selectedIndex < -1 || selectedIndex >= abilityCount) {
                     System.out.println(TextUtil.toRed("Invalid selection. Please try again."));
                 }
-            } catch (NumberFormatException e) {
+            } catch (NumberFormatException | IndexOutOfBoundsException e) {
                 System.out.println(TextUtil.toRed("Invalid input! Please enter a number."));
             }
         }

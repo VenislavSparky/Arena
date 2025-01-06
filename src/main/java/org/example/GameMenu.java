@@ -1,23 +1,29 @@
 package org.example;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.TypedQuery;
 import org.example.Characters.PlayerCharacter.PlayerCharacter;
 import org.example.Characters.Inventory.Equipments.Equipment;
 import org.example.Characters.PlayerCharacter.PlayerCharacterFactory;
+import org.example.Exceptions.DatabaseOperationException;
 import org.example.Interactables.Interactable;
 import org.example.Interactables.Arenas.ArenaFactory;
 import org.example.Interactables.Shops.Armory;
 import org.example.Interactables.Shops.ConsumablesShop;
 import org.example.Interactables.Trainers.ClassTrainer;
-import org.example.Utils.EntityManagerFactoryUtil;
+import org.example.Networking.Client;
+import org.example.Repositories.PlayerCharacterRepository;
+import org.example.Repositories.impl.PlayerCharacterRepositoryImpl;
 import org.example.Utils.TextUtil;
-
+import java.io.IOException;
+import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+
 public class GameMenu {
+
+    private static final PlayerCharacterRepository playerRepository = new PlayerCharacterRepositoryImpl();
+
 
     public static PlayerCharacter initializeCharacter() {
         Scanner scanner = new Scanner(System.in);
@@ -33,7 +39,7 @@ public class GameMenu {
 
                 switch (option) {
                     case 1:
-                        return fetchCharacterFromDB(scanner);
+                        return getFromRepository(scanner);
                     case 2:
                         return PlayerCharacterFactory.createPlayerCharacter();
                     case 3:
@@ -56,7 +62,9 @@ public class GameMenu {
             List<Interactable> interactables = initializeInteractables(playerCharacter);
             TextUtil.printSeparator();
             System.out.println("Where would you like to go?");
-            for (int i = 0; i < interactables.size(); i++) {
+
+            System.out.printf("%d. %s\n", 1, "Arena");
+            for (int i = 1; i < interactables.size(); i++) {
                 System.out.printf("%d. %s\n", i + 1, interactables.get(i).getClass().getSimpleName());
             }
             System.out.printf("%d. %s\n", interactables.size() + 1, "Edit Character");
@@ -65,8 +73,9 @@ public class GameMenu {
             try {
                 System.out.print("Choose an option: ");
                 int option = Integer.parseInt(scanner.nextLine());
-
-                if (option >= 1 && option <= interactables.size()) {
+                if (option == 1) {
+                    chooseArenaMode(playerCharacter);
+                } else if (option > 1 && option <= interactables.size()) {
                     TextUtil.printSeparator();
                     interactables.get(option - 1).interact(playerCharacter);
                 } else if (option == interactables.size() + 1) {
@@ -120,9 +129,46 @@ public class GameMenu {
         }
     }
 
+    private static void chooseArenaMode(PlayerCharacter playerCharacter) {
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            TextUtil.printSeparator();
+            System.out.println("Arena modes:");
+            System.out.println("1. Singleplayer ");
+            System.out.println("2. Multiplayer");
+            System.out.println("3. Return to main menu");
+
+            try {
+                System.out.print("Choose an option: ");
+                int option = Integer.parseInt(scanner.nextLine());
+
+                switch (option) {
+                    case 1:
+                        ArenaFactory.getArenaForPlayer(playerCharacter).interact(playerCharacter);
+                        break;
+                    case 2:
+                        Socket socket = new Socket("localhost", 1233);
+                        Client client = new Client(socket,playerCharacter);
+                        client.connectToServer();
+
+                        break;
+                    case 3:
+                        return;
+                    default:
+                        System.out.println("Invalid option! Please try again.");
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a valid number.");
+            } catch (IOException e) {
+                System.out.println("Error connection to server...");
+            }
+        }
+    }
+
+
     private static List<Interactable> initializeInteractables(PlayerCharacter playerCharacter) {
         List<Interactable> interactables = new ArrayList<>();
-        interactables.add(ArenaFactory.getArenaForPlayer(playerCharacter));
         interactables.add(new ConsumablesShop());
         Armory.getInstance().refreshEquipments(playerCharacter);
         interactables.add(Armory.getInstance());
@@ -131,11 +177,9 @@ public class GameMenu {
     }
 
 
-    private static PlayerCharacter fetchCharacterFromDB(Scanner scanner) {
-        try (EntityManager em = EntityManagerFactoryUtil.getEntityManager()) {
-            em.getTransaction().begin();
-            TypedQuery<PlayerCharacter> query = em.createQuery("SELECT c FROM PlayerCharacter c", PlayerCharacter.class);
-            List<PlayerCharacter> characters = query.getResultList();
+    private static PlayerCharacter getFromRepository(Scanner scanner) {
+        try {
+            List<PlayerCharacter> characters = playerRepository.fetchAllCharacters();
 
             if (characters.isEmpty()) {
                 System.out.println("No existing character found.");
@@ -149,26 +193,21 @@ public class GameMenu {
 
             while (true) {
                 System.out.print("Select a character (number): ");
-
-                int option = -1;
                 try {
-                    option = Integer.parseInt(scanner.nextLine()) - 1;
+                    int option = Integer.parseInt(scanner.nextLine()) - 1;
+                    return playerRepository.fetchCharacterByIndex(option);
                 } catch (NumberFormatException e) {
-                    System.out.println(TextUtil.toRed("Invalid input. Please enter a number."));
-                }
-
-                if (option >= 0 && option < characters.size()) {
-                    PlayerCharacter playerCharacter = characters.get(option);
-                    playerCharacter.initCurrentStats();
-                    return playerCharacter;
-                } else {
-                    System.out.println("Invalid selection. Try again.");
+                    System.out.println("Invalid input. Please enter a number.");
+                } catch (DatabaseOperationException e) {
+                    System.out.println(e.getMessage());
                 }
             }
-        } catch (Exception e) {
-            throw new RuntimeException("Failed to fetch character from database!", e);
+        } catch (DatabaseOperationException e) {
+            System.out.println("Error: " + e.getMessage());
+            return null;
         }
     }
+
 
 
     private static void equipItem(PlayerCharacter playerCharacter, Scanner scanner) {
@@ -220,13 +259,12 @@ public class GameMenu {
 
 
     private static void saveGame(PlayerCharacter playerCharacter) {
-        try (EntityManager em = EntityManagerFactoryUtil.getEntityManager()) {
-            em.getTransaction().begin();
-            em.merge(playerCharacter);
-            em.getTransaction().commit();
+        try {
+            playerRepository.saveOrUpdate(playerCharacter);
             System.out.println("Game saved!");
-        } catch (Exception e) {
+        } catch (DatabaseOperationException e) {
             System.out.println("Failed to save the game: " + e.getMessage());
         }
     }
+
 }

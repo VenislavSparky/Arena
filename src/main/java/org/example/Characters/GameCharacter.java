@@ -10,13 +10,18 @@ import org.example.Characters.Inventory.Equipments.Equipment;
 import org.example.Characters.Inventory.Equipments.Slot;
 import org.example.Characters.Inventory.Inventory;
 
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @MappedSuperclass
-public abstract class GameCharacter {
+public abstract class GameCharacter implements Serializable {
+
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -80,7 +85,7 @@ public abstract class GameCharacter {
     public int receiveDamage(int damage) {
         int trueDamage = Math.max(damage - getStats().getArmor(), 0);
         setCurrentHealth(Math.max(getCurrentHealth() - trueDamage, 0));
-        System.out.printf("%s took %d damage. Health left: %d\n", getName(), trueDamage, getCurrentHealth());
+        //System.out.printf("%s took %d damage. Health left: %d\n", getName(), trueDamage, getCurrentHealth());
         return trueDamage;
     }
 

@@ -111,10 +111,8 @@ public class Armory implements Interactable {
             } else {
                 System.out.println(TextUtil.toRed("You don't have enough gold to buy this item!"));
             }
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
             System.out.println(TextUtil.toRed("Invalid input! Please enter a number."));
-        } catch (Exception e) {
-            System.out.println(TextUtil.toRed("Something went wrong! Returning to Armory menu."));
         }
     }
 
@@ -151,10 +149,8 @@ public class Armory implements Interactable {
             gameCharacter.getInventory().remove(selectedEquipment);
 
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | IndexOutOfBoundsException e ) {
             System.out.println(TextUtil.toRed("Invalid input! Please enter a number."));
-        } catch (Exception e) {
-            System.out.println(TextUtil.toRed("Something went wrong! Returning to Armory menu."));
         }
     }
 

@@ -12,7 +12,11 @@ import org.example.Characters.CharacterClass;
 import org.example.Characters.Stats;
 import org.example.Characters.Inventory.Equipments.Equipment;
 import org.example.Characters.Inventory.Equipments.Slot;
+import org.example.Networking.ClientHandler;
 import org.example.Utils.TextUtil;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.util.List;
 
 @Getter
@@ -32,9 +36,12 @@ public class PlayerCharacter extends GameCharacter {
     }
 
     @Override
-    public boolean performActions( List<GameCharacter> heroes, List<GameCharacter> monsters) {
-        return CombatManager.handleActions(this,heroes,monsters);
+    public boolean performActions(List<GameCharacter> heroes, List<GameCharacter> monsters) {
+        return CombatManager.handleActions(this, heroes, monsters);
+    }
 
+    public boolean performActions(PlayerCharacter playerOne, ClientHandler playerOneClientHandler, PlayerCharacter playerTwo,ClientHandler playerTwoClientHandler) {
+        return MultiplayerCombatManager.handleActions(playerOne, playerOneClientHandler, playerTwo, playerTwoClientHandler);
     }
 
     public void updateWins() {
@@ -92,7 +99,7 @@ public class PlayerCharacter extends GameCharacter {
 
     @Override
     public String toString() {
-        return String.format(  TextUtil.WHITE+ "%s (Level %d %s) Health: %d |  Energy: %d , Gold: %d , Wins: %d  |  Losses: %d " + TextUtil.RESET,
+        return String.format(TextUtil.WHITE + "%s (Level %d %s) Health: %d |  Energy: %d , Gold: %d , Wins: %d  |  Losses: %d " + TextUtil.RESET,
                 getName(), getLevel(), getCharacterClass(), getMaxHealth(), getMaxEnergy(), getGold(), getWins(), getLosses());
     }
 }

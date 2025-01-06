@@ -7,13 +7,14 @@ import org.example.Characters.Inventory.Consumables.ConsumableQuantity;
 import org.example.Characters.Inventory.Equipments.Equipment;
 import org.example.Characters.PlayerCharacter.PlayerCharacter;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "inventories")
 @Getter
-public class Inventory {
+public class Inventory implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

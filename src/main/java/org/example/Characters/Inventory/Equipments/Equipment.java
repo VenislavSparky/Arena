@@ -8,12 +8,14 @@ import org.example.Characters.Inventory.Inventory;
 import org.example.Characters.Stats;
 import org.example.Utils.TextUtil;
 
+import java.io.Serializable;
+
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "equipments")
-public class Equipment {
+public class Equipment implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

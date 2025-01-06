@@ -57,7 +57,7 @@ public class CombatManager {
         System.out.print("Your choice: ");
         try {
             return Integer.parseInt(SCANNER.nextLine());
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException | IndexOutOfBoundsException e) {
             return -1;
         }
     }

@@ -10,6 +10,7 @@ import org.example.Abilities.TargetingStrategies.TargetingStrategy;
 import org.example.Characters.GameCharacter;
 import org.example.Characters.CharacterClass;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
@@ -21,7 +22,7 @@ import java.util.Objects;
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Table(name = "abilities")
 @DiscriminatorColumn(name = "ability_type", discriminatorType = DiscriminatorType.STRING)
-public abstract class Ability {
+public abstract class Ability implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
