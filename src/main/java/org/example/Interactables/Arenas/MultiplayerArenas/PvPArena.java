@@ -1,7 +1,7 @@
 package org.example.Interactables.Arenas.MultiplayerArenas;
 
 import org.example.Characters.GameCharacter;
-import org.example.Characters.PlayerCharacter.PlayerCharacter;
+
 import org.example.Networking.ClientHandler;
 import org.example.Utils.TextUtil;
 

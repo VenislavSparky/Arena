@@ -15,8 +15,6 @@ import org.example.Characters.Inventory.Equipments.Slot;
 import org.example.Networking.ClientHandler;
 import org.example.Utils.TextUtil;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.util.List;
 
 @Getter

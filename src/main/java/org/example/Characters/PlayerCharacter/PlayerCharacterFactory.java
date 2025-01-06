@@ -18,8 +18,6 @@ public class PlayerCharacterFactory {
     public static PlayerCharacter createPlayerCharacter() {
         Scanner scanner = new Scanner(System.in);
 
-        PlayerCharacter playerCharacter = null;
-
         System.out.println("Creating new Character!\nPlease choose class type! (Enter class type name)");
         PlayerCharacterFactory.listAvailableClasses();
         String characteClassInput = scanner.nextLine().trim().toUpperCase();
@@ -32,7 +30,7 @@ public class PlayerCharacterFactory {
         System.out.println("You have selected class: " + characteClassInput + "\nEnter name: ");
         String name = scanner.nextLine();
 
-        playerCharacter = getPlayerCharacter(CharacterClass.valueOf(characteClassInput), name);
+        PlayerCharacter playerCharacter = getPlayerCharacter(CharacterClass.valueOf(characteClassInput), name);
 
         try {
             playerRepository.saveOrUpdate(playerCharacter);
